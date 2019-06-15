@@ -24,6 +24,12 @@ class QlsvProvider extends ServiceProvider
     {
 
       view()->composer(['admin.index'], function($view){
+        $obj_di = new disciplinary_information();
+        $chartsValues = $obj_di->readToFile($obj_di->file_chartsValue);
+        return $view->with('chartsValues', $chartsValues);
+      });
+
+      view()->composer(['admin.index'], function($view){
             $obj_class = new classModel();
             $kq = $obj_class->countAllClass();
             return $view->with('classdangquanliall', $kq);
@@ -84,13 +90,13 @@ class QlsvProvider extends ServiceProvider
             return $view->with('sinhvienbikyluat', $kq);
         });
 
-        view()->composer(['admin.ttkyluat.tables', 'user.ttkyluat.tables', 'user.index', 'admin.index', 'admin.absent.tables', 'user.absent.tables'], function($view){
+        view()->composer(['admin.ttkyluat.tables', 'user.ttkyluat.tables', 'user.index', 'admin.index', 'admin.absent.tables', 'user.absent.tables', 'admin.ttkyluat.teacher-not-comfirm'], function($view){
             $obj_di = new disciplinary_information();
             $kq = $obj_di->returnYearMax();
             return $view->with('nam', $kq);
         });
 
-        view()->composer(['admin.ttkyluat.tables', 'user.ttkyluat.tables', 'user.index', 'admin.index', 'admin.absent.tables', 'user.absent.tables'], function($view){
+        view()->composer(['admin.ttkyluat.tables', 'user.ttkyluat.tables', 'user.index', 'admin.index', 'admin.absent.tables', 'user.absent.tables', 'admin.ttkyluat.teacher-not-comfirm'], function($view){
           $obj_di = new disciplinary_information();
           $kq = $obj_di->returnSemesterMax();
           return $view->with('hocky', $kq);

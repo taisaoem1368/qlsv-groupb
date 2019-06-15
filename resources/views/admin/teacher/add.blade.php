@@ -31,7 +31,7 @@ form {
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
+            <a href="{{url('/admin/index')}}">Dashboard</a>
           </li>
           <li class="breadcrumb-item"><a href="{{url('/admin/teacher/list')}}">Giáo Viên/CVHT</a></li>
           <li class="breadcrumb-item active">Thêm mới</li>

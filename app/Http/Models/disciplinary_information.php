@@ -9,14 +9,16 @@ use App\Http\Models\teacher;
 use App\Http\Models\classModel;
 use App\Http\Models\discipline;
 use App\Http\Models\major;
-
+use DB;
 use Auth;
 date_default_timezone_set('Asia/Ho_Chi_Minh'); 
+
 
 class disciplinary_information extends Model
 {
     protected $table = 'disciplinary_information';
 	public $primaryKey = 'di_id';
+	public $file_chartsValue = 'charts-value/charts-value.json';
 
 	public function getDI_Student() {
 		return $this->belongsTo('App\Http\Models\student', 'di_student_id');
@@ -141,7 +143,7 @@ class disciplinary_information extends Model
 
 	public function returnYearMax()
 	{
-		$kq = $this->max('di_year');
+		$kq = $this->where('di_delete', 1)->max('di_year');
 		if(!isset($kq))
 			return 1990;
 		return $kq;
@@ -150,7 +152,7 @@ class disciplinary_information extends Model
 	public function returnSemesterMax()
 	{
 		$year = $this->max('di_year');
-		$check = $this->where('di_semester', 2)->where('di_year', $year)->first();
+		$check = $this->where('di_delete', 1)->where('di_semester', 2)->where('di_year', $year)->first();
 		if(count($check) <= 0)
 			return 1;
 		return 2;
@@ -551,6 +553,8 @@ class disciplinary_information extends Model
 			->join('major', 'class_major_id', '=', 'major_id')
 			->join('discipline', 'di_discipline_id', '=', 'discipline_id')
 			->where('class_teacher_id', $id_teacher)
+			->where('di_semester', $this->returnSemesterMax())
+			->where('di_year', $this->returnYearMax())
 			->paginate(10);
 
 		} else //Tìm lớp chỉ định
@@ -734,5 +738,53 @@ class disciplinary_information extends Model
 		}
 	}
 
+	public function getChartsValueOfYear($year)
+	{
+		$result = $this->where('di_year', $year)
+		->where('di_delete', 1)
+		->get();
+		// ->select(DB::raw('count(*) as data_count'))
+		// ->groupBy('di_year')
+		// ->orderBy('di_year', 'ASC')
+		return count($result);
+	}
+
+	public function getValueCharts($req = null)
+	{
+		$maxyear = $this->returnYearMax();
+		if($maxyear <= 2000)
+			return $chartsValues = [[0 => 1970], [0 => 0], '01/01/1970'];
+
+
+		$chartsLabels = [];
+		$chartsDatas = [];
+
+		for($i = ($maxyear - 4); $i <= $maxyear; $i++)
+		{
+			array_push($chartsLabels, $i.'-'.($i+1));
+			array_push($chartsDatas, $this->getChartsValueOfYear($i));
+		}
+
+		$chartsValues = [$chartsLabels, $chartsDatas, date('d/m/Y')];
+		return $chartsValues;
+	}
+
+	public function wirteToFile($file_name, $object)
+	{
+		$json_data = json_encode($object, JSON_UNESCAPED_UNICODE);
+		file_put_contents($file_name, $json_data);	
+	}
+
+	/**
+     * Đọc mảng object lên từ file Json
+     *
+     * @return array
+     */
+	public function readToFile($file_name)
+	{
+		$json = file_get_contents($file_name);
+		$obj = json_decode($json, true);
+		return $obj;
+	}
 
 }

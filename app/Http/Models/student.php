@@ -144,18 +144,18 @@ class student extends Model
         return true;
     }
 
-    // public function updateStudentQ($req) {
+    public function updateStudentQ($req) {
 
-    //     $student = $this->find($req->student_id);
-    //     $student->student_fullname = $req->student_fullname;
-    //     $student->student_code = $req->student_code;
-    //     $student->student_birth = strtotime($req->student_birth);
-    //     $student->student_class_id = $req->student_class_id;
-    //     $student->student_level_edu = $req->student_level_edu;
-    //     $student->student_type_edu = $req->student_type_edu;
-    //     $student->student_contact = $req->student_contact;
-    //     $student->save();
-    // }
+        $student = $this->find($req->student_id);
+        $student->student_fullname = $req->student_fullname;
+        $student->student_code = $req->student_code;
+        $student->student_birth = strtotime($req->student_birth);
+        $student->student_class_id = $req->student_class_id;
+        $student->student_level_edu = $req->student_level_edu;
+        $student->student_type_edu = $req->student_type_edu;
+        $student->student_contact = $req->student_contact;
+        $student->save();
+    }
 
     public function deleteStudent($id) {
         $obj_di = new disciplinary_information();

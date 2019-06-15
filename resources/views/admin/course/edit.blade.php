@@ -32,10 +32,10 @@ form {
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="#">Dashboard</a>
+                <a href="{{url('/admin/index')}}">Dashboard</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/admin/discipline/list">Khóa học</a>
+                <a href="{{url('/admin/discipline/list')}}">Khóa học</a>
             </li>
             <li class="breadcrumb-item active">Sửa</li>
         </ol>
@@ -73,14 +73,6 @@ form {
                 <div class="container">
                     <form class="col-xs-12 add-form" action="{{Route('postEditCourse')}}" method="post">
                       <span id="required-value">(Trường có * là trường bắt buộc)</span>
-                        @if(Session::has('success'))
-                        <div class="alert alert-success">{{Session::get('success')}}
-                        </div>
-                        @elseif (Session::has('fail'))
-                        <div class="alert alert-danger">{{Session::get('fail')}}
-                        </div>
-                        @endif
-                        
                         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                         <input type="hidden" name="course_id" value="{{$course['course_id']}}">
                         <div class="form-group row">

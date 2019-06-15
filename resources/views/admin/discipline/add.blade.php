@@ -31,7 +31,7 @@ Thêm mới hình thức kỷ luật
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="#">Dashboard</a>
+                <a href="{{url('/admin/index')}}">Dashboard</a>
             </li>
             <li class="breadcrumb-item"><a href="{{url('/admin/discipline/list')}}">Hình thức kỷ luật</a></li>
             <li class="breadcrumb-item active">Thêm mới</li>

@@ -71,7 +71,8 @@ table thead tr {
   text-align: center;
 }
 .form-add {
-  border-bottom: 1px solid #d8d8d8;
+  border-bottom: 5px solid;
+  border-image:   linear-gradient(to right, blue 50%, yellow 50%, yellow 50%,red 50%, red 50%, green 50%) 5;
   margin-bottom: 20px;
 }
 
@@ -105,7 +106,7 @@ table thead tr {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="#">Dashboard</a>
+        <a href="{{url('/admin/index')}}">Dashboard</a>
       </li>
       <li class="breadcrumb-item"><a href="{{url('/admin/disciplinary-information/list')}}">Thông Tin Kỷ Luật</a></li>
       <li class="breadcrumb-item active">Thêm từ file</li>
@@ -209,8 +210,8 @@ table thead tr {
        <a href="{{route('updateDataToDataBase')}}" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn ghi đè dữ liệu này lên dữ liệu cũ?');" id="btn-ghi-de">Ghi đè Dữ Liệu</a>
         @endif
       
-      <a href="{{route('updateDataToDataBaseQuestion')}}" class="btn btn-primary" onclick="return confirm('Nhập dữ liệu lên Cơ sở dữ liệu?');">Nhập Dữ Liệu Lên CSDL</a>
-      <a href="{{route('deleteAllFromFile')}}" class="btn btn-primary" onclick="return confirm('Xóa tất cả dữ liệu tạm thời?');">Xóa Dữ Liệu</a>
+      <a href="{{route('updateDataToDataBaseQuestion')}}" class="btn btn-primary" onclick="return confirm('Nhập dữ liệu lên Cơ sở dữ liệu?');">Nhập Dữ Liệu Tạm Lên CSDL</a>
+      <a href="{{route('deleteAllFromFile')}}" class="btn btn-primary" onclick="return confirm('Xóa tất cả dữ liệu tạm thời?');">Xóa Dữ Liệu Tạm</a>
     </div>
     <!-- /.container-fluid -->
 

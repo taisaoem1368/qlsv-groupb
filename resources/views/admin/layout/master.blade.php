@@ -89,6 +89,7 @@
           <a class="dropdown-item" href="{{url('/admin/disciplinary-information/add-from-file')}}">Thêm từ file</a>
           <a class="dropdown-item" href="{{url('/admin/disciplinary-information/export-thong-tin-ky-luat')}}">Xuất file</a>
           <a href="{{route('UpdateSQD')}}" class="dropdown-item">Cập nhật Số quyết định</a>
+          <a href="{{route('getMailNotificationPage')}}" class="dropdown-item">Gửi email thông báo</a>
         </div>
       </li>
 

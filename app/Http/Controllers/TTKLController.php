@@ -20,6 +20,15 @@ class TTKLController extends Controller {
 	//------------ Excel -------------------\\
 	private $nameFile = 'ttkl';
 
+
+	public function loadValueCharts()
+	{
+		$obj_di = new disciplinary_information();
+		$chartsValues = $obj_di->getValueCharts();
+		$obj_di->wirteToFile($obj_di->file_chartsValue, $chartsValues);
+		return redirect('/admin/index');
+	}
+
 	public function downLoadTTKLTemp()
 	{
 		return response()->download(public_path('excel/excel-temp/thong-tin-ky-luat-temp.xlsx'));
@@ -588,4 +597,6 @@ class TTKLController extends Controller {
 		$obj_di->updateSDQ($req);
 		return redirect()->back()->with('success', 'cập nhật thành công');
 	}
+
+
 }

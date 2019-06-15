@@ -46,6 +46,16 @@ form {
                 <div class="alert alert-success">{{Session::get('success')}}
                     </div>
                 @endif
+                @if (count($errors) > 0)
+             <div class="alert alert-danger">
+              <strong>Thông báo:</strong><br>
+              <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+            @endif
                 <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label">Số điện thoại</label>

@@ -3,11 +3,7 @@
 Dashboard
 @stop
 @section('css-header')
-<style type="text/css">
-  .container-fluid {
-    height: 72%;
-  }
-</style>
+
 @stop
 @section('content')
     <div id="content-wrapper">
@@ -56,7 +52,7 @@ Dashboard
             <div class="card text-white bg-success o-hidden h-100">
               <div class="card-body">
                 <div class="card-body-icon">
-                  <i class="fas fa-fw fa-shopping-cart"></i>
+                  <i class="fas fa-check"></i>
                 </div>
                 <div class="mr-5">CVHT đã phản hồi! Học kỳ <?php if(isset($hocky)){echo $hocky;} ?> ( <?php if(isset($nam)){echo $nam.'-'.($nam+1);} ?>)</div>
               </div>
@@ -82,8 +78,68 @@ Dashboard
           </div>
         </div>
       </div>
+              <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Biểu đồ thể hiện số lượng sinh viên bị vi phạm kỷ luật trong 5 năm gần nhất</div>
+          <div class="card-body">
+            <canvas id="myChart"></canvas>
+          </div>
+          <div class="card-footer small text-muted">Updated at @if(isset($chartsValues)){{$chartsValues[2]}}@endif <a href="{{route('loadChart')}}">Reload <i class="fas fa-circle-notch"></i></a></div>
+        </div>
 
 @stop
 @section('js-footer')
-  <script src="js/demo/chart-area-demo.js"></script>
+
+<script src="{{asset('js/chart2.8.0.js')}}"></script>
+<script>
+var chartsValues = <?php echo json_encode($chartsValues); ?>;
+if(chartsValues)
+{
+  var ctx = document.getElementById('myChart').getContext('2d');
+
+  var labels_arr = chartsValues[0];
+  var data = chartsValues[1];
+
+
+
+
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: labels_arr,
+          datasets: [{
+              label: 'SV Vi Phạm',
+              data: data,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+}
+</script>
 @stop

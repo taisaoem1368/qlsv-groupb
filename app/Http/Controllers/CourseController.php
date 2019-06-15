@@ -37,7 +37,7 @@ class CourseController extends Controller
 		if (@$obj_course->createCourse($req)) {
             return redirect()->back()->with('success', 'Thêm mới thành công');
         } else {
-            return redirect()->back()->with('fail', 'Thêm mới thất bại! Mời thử lại');
+            return redirect()->back()->with('message', 'Thêm mới thất bại');
         }
 	}
 
@@ -53,9 +53,9 @@ class CourseController extends Controller
 		$this->validateCourse($req);
 		$obj_course = new course();
         if (@$obj_course->updateCourse($req)) {
-            return redirect()->back()->with('success', 'Thêm mới thành công');
+            return redirect()->back()->with('success', 'Thay đổi thành công');
         } else {
-            return redirect()->back()->with('fail', 'Thêm mới thất bại! Mời thử lại');
+            return redirect()->back()->with('message', 'Thay đổi thất bại');
         }
 	}
 

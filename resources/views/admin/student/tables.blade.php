@@ -64,10 +64,10 @@ Bảng thông tin sinh viên
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="#">Dashboard</a>
+                <a href="{{url('/admin/index')}}">Dashboard</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/admin/student/list">Sinh viên</a>
+                <a href="{{url('/admin/student/list')}}">Sinh viên</a>
             </li>
             <li class="breadcrumb-item active">Xem Danh Sách
             </li>

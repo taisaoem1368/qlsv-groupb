@@ -52,5 +52,38 @@ class user extends Authenticatable
         $kq->delete();
     }
 
+    public function updateRememberToken($teacher_code)
+    {
+        $token = md5(rand(10,15000).date('d/m/YH:m:s'));
+        $user = $this->where('user_teacher_code', $teacher_code)->first();
+        $user->remember_token = $token;
+        $user->save();
+        return $token;
+    }
+
+    public function checkExistRememberToken($token)
+    {
+        $user = $this->where('remember_token', $token)->first();
+        if(count($user) <= 0)
+            return false;
+        if((strtotime($user->updated_at) + 300) < strtotime(date('d-m-Y H:i:s')))
+            return false;
+        return true;
+    }
+
+    public function resetPassword($token, $newpassword)
+    {
+        $user = $this->where('remember_token', $token)->first();
+        if(count($user) <= 0)
+            return false;
+        if((strtotime($user->updated_at) + 300) < strtotime(date('d-m-Y H:i:s')))
+            return false;
+        $token_after = md5(rand(10,15000).date('d/m/YH:m:s'));
+        $user->remember_token = $token_after;
+        $user->password = Hash::make($newpassword);
+        $user->save();
+        return true;
+    }
+
 
 }

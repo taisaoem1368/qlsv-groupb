@@ -77,10 +77,10 @@ Bảng danh sách khóa học
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="#">Dashboard</a>
+                <a href="{{url('/admin/index')}}">Dashboard</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="/admin/course/list">Khóa học</a>
+                <a href="{{url('/admin/course/list')}}">Khóa học</a>
             </li>
             <li class="breadcrumb-item active">Xem Danh Sách
             </li>

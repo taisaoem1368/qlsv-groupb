@@ -1,6 +1,6 @@
 @extends('admin.layout.master')
 @section('title')
-Danh sách sinh viên vi phạm quá số tiết vắng
+Danh sách giáo viên chưa gửi phản hồi
 @stop
 @section('css-header')
 <style>
@@ -58,6 +58,16 @@ Danh sách sinh viên vi phạm quá số tiết vắng
   .message-errors {
     margin-right: 50px;
   }
+#warning {
+  color: #f13232c9;
+  font-weight: bold;
+  font-size: 1.4em;
+}
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
 </style>
 @stop
 @section('content')
@@ -71,18 +81,17 @@ Danh sách sinh viên vi phạm quá số tiết vắng
           <li class="breadcrumb-item">
             <a href="{{url('/admin/index')}}">Dashboard</a>
           </li>
-          <li class="breadcrumb-item">Chuyên Cần
+          <li class="breadcrumb-item">Thông Tin Kỷ Luật
 </li>
-<li class="breadcrumb-item active">Xem Danh Sách
+<li class="breadcrumb-item active">Danh sách giáo viên chưa phản hồi
 </li>
         </ol>
 
         <!-- DataTables Example -->
         <div class="card mb-3">
           <div class="card-header">
-            <a href="{{url('/admin/absent/add')}}" class="add-table"><i class="fa fa-plus" aria-hidden="true"></i></a>
             <i class="fas fa-table"></i>
-            Sinh Viên Kỷ Luật Vắng Quá Số Tiếc</div>
+            Danh Sách Giáo Viên Chưa Phản Hồi</div>
         <div class="form-search">
   <div class="message-errors">
              @if(Session::has('success'))
@@ -97,8 +106,9 @@ Danh sách sinh viên vi phạm quá số tiết vắng
              </div>
              @endif
              @if (count($errors) > 0)
+             <strong>Thông báo:</strong><br>
              <div class="alert alert-danger">
-              <strong>Thông báo:</strong><br>
+              
               <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -107,10 +117,11 @@ Danh sách sinh viên vi phạm quá số tiết vắng
             </div>
             @endif
   </div>
-<form class="form-inline" action="{{Route('getSearchAbsent')}}" method="get">
-             
-  <div class="form-group mx-sm-1 mb-2">
-    <input type="text" class="form-control" name="key" placeholder="Từ khóa....">
+<form class="form-inline" action="{{Route('postSendNotificationForTeacher')}}" method="post">
+             {{csrf_field()}}
+  <div class="form-group mx-sm-1 mb-2 ml-md-5">
+    <label id="label-form-search">Hạn chót</label>
+    <input type="date" class="form-control" name="dealtime" min="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>" placeholder="Từ khóa....">
   </div>
     <div class="form-group mx-sm-3 mb-2">
     <label id="label-form-search">Học kỳ</label>
@@ -133,66 +144,39 @@ Danh sách sinh viên vi phạm quá số tiết vắng
        <?php } ?>
     </select>
   </div>
-    <div class="form-group mx-sm-3 mb-2">
-    <label id="label-form-search">Tiêu chí</label>
-    <select class="form-control" name="types">
 
-      <option value="md" <?php if(isset($types)){if($types == "md"){echo "selected";}} ?>>Mặc định</option>
-      <option value="class_code" <?php if(isset($types)){if($types == "class_code"){echo "selected";}} ?>>Mã lớp</option>
-      <option value="student_code" <?php if(isset($types)){if($types == "student_code"){echo "selected";}} ?>>Mã sinh viên</option>
-      <option value="student_fullname" <?php if(isset($types)){if($types == "student_fullname"){echo "selected";}} ?>>Tên sinh viên</option>
-    </select>
-  </div>
   <div class="form-group mx-sm-3">
-    <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
+    <button type="submit" class="btn btn-primary mb-2">Gửi Email <i class="fas fa-paper-plane"></i></button>
   </div>
 </form>
         </div>
-        @if(isset($_GET['key']))
-          <div class="result-search">Kết quả tìm kiếm: "<span>{{$_GET['key']}}</span>" có <span>{{$data->total()}}</span> kết quả</div>
-        @endif
           <div class="card-body">
             <div class="table-responsive">
-              <!--Search-->
+              <!---->
 
-<!--end - search -->
+<div id="warning">Học Kì: {{$hocky}} | Năm Học: {{$nam}} - {{$nam+1}} | Tổng: {{$data->total()}} giáo viên chưa phản hồi </div>
+
+<!--end -  -->
               <table class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                        <th>Thao tác</th>
-                        <th>STT</th>
-                        <th>Mã Sinh Viên</th>
-                        <th>Họ & Tên</th>
-                        <th>Ngày Sinh</th>
-                        <th>Mã Lớp</th>
-                        <th>Ngành Học</th>
-                        <th>Số tiếc vắng</th>
-                        <th>Tình trạng</th>
-                        <th>Cập nhật lần cuối</th>
+                      <th>STT</th>
+                      <th>Mã giáo viên</th>
+                      <th>Họ & Tên</th>
+                      <th>Email</th>
                   </tr>
                 </thead>
                 <tbody>
-    <?php $i = 0; ?>
+    <?php $i = 0; if(isset($_GET['page'])){$i = ($_GET['page']*15-15);} ?>
    @foreach($data as $value)
-                 <tr>
-      <td><a class="btn btn-primary btn-edit" href="{{Route('getEditAbsent', $value['ai_id'])}}"><i class="far fa-edit"></i></a>
-                <form id="form-delete" action="{{Route('postDeleteAbsent')}}" method="post">
-          <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-          <input type="hidden" name="ai_id" value="{{$value['ai_id']}}">
-          <button class="btn btn-primary btn-delete"  onclick="return confirm('Xóa sinh viên vi phạm?');"><i class="far fa-trash-alt"></i></button>
-        </form></td>
+    <tr>
       <td>{{++$i}}</td>
-      <td>{{$value['student_code']}}</td>
-      <td>{{$value['student_fullname']}}</td>
-      <td>{{date('d/m/Y', $value['student_birth'])}}</td>
-      <td>{{$value['class_code']}}</td>
-      <td>{{$value['major_name']}}</td>
-      <td>{{$value['ai_absences']}}</td>
-      <td>{{$value['discipline_name']}}</td>
-      <td>({{$value['ai_teacher_code_edit']}}) {{$value['ai_time_edit']}}
-      </td>
+      <td>{{$value->teacher_code}}</td>
+      <td>{{$value->teacher_fullname}}</td>
+      <td>{{$value->teacher_email}}</td>
     </tr>
     @endforeach
+
                 </tbody>
               </table>
            @if(isset($_GET['key']))
@@ -209,17 +193,41 @@ Danh sách sinh viên vi phạm quá số tiết vắng
     </div>
     <!-- /.content-wrapper -->
 
+  
   @stop
-
   @section('js-footer')
   <script>
     $(document).ready(function(){
       setHeightFt();
+      checkEmailOnTable();
     });
+
     function setHeightFt() {
       var total = <?php echo $data->total(); ?>;
       if(total <= 0)
-        $('footer').css('margin-top', '210px');
+        $('footer').css('margin-top', '170px');
+    }
+
+    function checkEmailOnTable()
+    {
+      var total = $('tbody tr').length;
+      var exist = 0;
+      for(var i = 0; i < total; i++)
+      {
+          
+          if($('tbody tr').eq(i).children().eq(3).text() == '')
+          {
+            $('tbody tr').eq(i).css('background', '#e8766c');
+            exist++;
+          }
+      }
+      if(exist > 0)
+      {
+        $('#warning').append(`
+          <span id="email-exist">(${exist} giáo viên chưa có email)</span>
+        `);
+      }
     }
   </script>
   @stop
+

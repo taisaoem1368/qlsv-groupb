@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Models\disciplinary_information;
 
 class LoginController extends Controller
 {
@@ -19,7 +20,7 @@ class LoginController extends Controller
 
     public function getLogin($id = "login")
     {
-        return view('admin.login.login');
+        return view('login.login');
     }
 
     public function postLoginWebsite(Request $request)

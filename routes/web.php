@@ -11,6 +11,7 @@ use Illuminate\Session\TokenMismatchException;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('/test/page', ['as' => 'testPage', 'uses' => 'UserController@getValueCharts']);
 
 //========================================== LOGIN ==========================================\\
 Route::get('/auth/login', ['as' => 'getLogin', 'middleware' => 'login_md', 'uses' => 'Auth\LoginController@getLogin']);
@@ -18,6 +19,15 @@ Route::post('/auth/post-login', ['as' => 'postLoginWebsite', 'uses' => 'Auth\Log
 Route::get('/logout', ['as' => 'LogoutWebsite', 'uses' => 'Auth\LoginController@Logout']);
 Route::get('/{id?}', ['middleware' => 'login_md', 'uses' => 'Auth\LoginController@getLogin']);
 //========================================== END LOGIN ==========================================\\
+
+//========================================== Password reset routes ==========================================\\
+Route::post('/password/email', ['as' => 'postSendEmailForClient', 'uses' => 'SendEmailController@postSendEmailForClient']);
+Route::get('/password/reset', ['as' => 'getSendEmailForClient', 'uses' => 'SendEmailController@getSendEmailForClient']);
+Route::post('/password/reset', ['as' => 'postChangePassword', 'uses' => 'SendEmailController@postChangePassword']);
+Route::get('/password/reset/{token}', ['as' => 'showResetForm', 'uses' => 'SendEmailController@showResetForm']);
+//========================================== End Password reset routes ==========================================\\
+
+
 
 //==========================TEST function controller
 // Route::get('test', 'WelcomeController@test');
@@ -29,8 +39,9 @@ Route::get('/{id?}', ['middleware' => 'login_md', 'uses' => 'Auth\LoginControlle
 Route::group(['prefix' => 'admin', 'middleware' => 'admin_md'], function(){
     Route::get('/profileadmin', ['as' => 'getProfileAdmin', 'uses' => 'TeacherController@getProfileAdmin']);
     Route::post('/profileadmin', ['as' => 'postProfileAdmin', 'uses' => 'TeacherController@postProfileUser']);
+    Route::get('/load-chart', ['as' => 'loadChart', 'uses' => 'TTKLController@loadValueCharts']);
     Route::get('/{id?}', 'TTKLController@dashboard');
-    
+   
     //==> THÔNG TIN KỶ LUẬT <==\\
     Route::group(['prefix' => 'disciplinary-information'], function() {
         //-------------------Excel------------------//
@@ -60,6 +71,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin_md'], function(){
         Route::get('/list/search', ['as' => 'getSearchTTKL', 'uses' => 'TTKLController@getSearchTTKL']);
         //Ajax modal di_student
         Route::get('/find-di-student-id/{id}', ['as' => 'findDiStudent', 'uses' => 'TTKLController@findDiStudent']);
+        //Send Email
+        Route::get('/list-teacher', ['as' => 'getMailNotificationPage', 'uses' => 'SendEmailController@getMailNotificationPage']);
+        Route::post('/send-notification-to-teacher', ['as' => 'postSendNotificationForTeacher', 'uses' => 'SendEmailController@postSendNotificationForTeacher']);
     });
     //==> END THÔNG TIN KỶ LUẬT <==\\
 

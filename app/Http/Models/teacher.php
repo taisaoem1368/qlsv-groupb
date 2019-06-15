@@ -8,6 +8,9 @@ use Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Models\user;
 use App\Http\Models\classModel;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailForgotPassword;
+use App\Mail\MailNotification;
 
 class teacher extends Model
 {
@@ -25,8 +28,67 @@ class teacher extends Model
 
 	public function findId($id)
 	{
-		$kq = teacher::join('users', 'user_teacher_code', 'teacher_code')->where('teacher_id', $id)->first();
+		$kq = $this->join('users', 'user_teacher_code', 'teacher_code')->where('teacher_id', $id)->first();
 		return $kq;
+	}
+
+	public function getTeacherComfirmIsNull($hocky, $namhoc)
+	{
+		$kq = $this->join('class', 'class_teacher_id', 'teacher_id')
+				->join('student', 'student_class_id', 'class_id')
+				->join('disciplinary_information', 'di_student_id', 'student_id')
+				->where('di_delete', 1)
+				->where(function($query) {
+					$query->where('di_teacher_confirm', '')
+					->orWhere('di_teacher_confirm', null);
+				})
+				->where('di_semester', $hocky)
+				->where('di_year', $namhoc)
+				->groupBy(['teacher_id'])
+				->paginate(10);
+				
+		return $kq;
+	}
+
+	public function getStudentHasTeacherComfirmIsNullByTeacherId($teacher_id, $hocky, $namhoc)
+	{
+		$kq = $this->join('class', 'class_teacher_id', 'teacher_id')
+				->join('student', 'student_class_id', 'class_id')
+				->join('disciplinary_information', 'di_student_id', 'student_id')
+				->where('di_delete', 1)
+				->where(function($query) {
+					$query->where('di_teacher_confirm', '')
+					->orWhere('di_teacher_confirm', null);
+				})
+				->where('di_semester', $hocky)
+				->where('di_year', $namhoc)
+				->where('teacher_id', $teacher_id)
+				->paginate(10);
+				
+		return $kq;
+	}
+	
+	public function sendEmailNotification($time, $hocky, $namhoc)
+	{
+		$all_teacher = $this->getTeacherComfirmIsNull($hocky, $namhoc);
+		$preg = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,6})$/';
+		$sendSuccess = 0;
+		foreach($all_teacher as $v)
+		{
+			if(preg_match($preg, $v->teacher_email))
+			{
+				$data = array(
+					'student' => $this->getStudentHasTeacherComfirmIsNullByTeacherId($v->teacher_id, $hocky, $namhoc),
+					'hocky' => $hocky,
+					'namhoc' => $namhoc,
+					'teacher_fullname' => $v->teacher_fullname,
+					'dealtime' => $time,
+				);
+				Mail::to($v->teacher_email)->send(new MailNotification($data));
+				$sendSuccess++;
+			}
+		}
+		return $sendSuccess;
 	}
 
 	public function checkTeacherExist($teacher_code)
@@ -106,6 +168,14 @@ class teacher extends Model
 		return true;
 	}
 
+	public function checkTeacherExistEdit($teacher_code, $id)
+	{
+		$kq = $this->where('teacher_code', $teacher_code)->where('teacher_id', '<>', $id)->first();
+		if(count($kq) <= 0)
+			return false;
+		return true;
+	}
+
 	public function getList()
 	{
 		return teacher::join('users', 'user_teacher_code', 'teacher_code')
@@ -147,6 +217,7 @@ class teacher extends Model
 
 	public function setProfile($id, Request $req)
 	{
+		
 		$teacher = teacher::find($id);
 		$teacher->teacher_email = $req->teacher_email;
 		$teacher->teacher_phone = $req->teacher_phone;
@@ -162,5 +233,20 @@ class teacher extends Model
     {
     	$kq = $this->where('teacher_code', Auth::user()->user_teacher_code)->first();
         return $kq;
-    }
+	}
+
+	function getArrayEmailTeacher($teacher)
+	{
+		$arrayEmail = [];
+		$preg = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,6})$/';
+		foreach($teacher as $v)
+		{
+			if(preg_match($preg, $v->teacher_email))
+			{
+				array_push($arrayEmail, $v->teacher_email);
+			}
+		}
+		return $arrayEmail;
+	}
+	
 }

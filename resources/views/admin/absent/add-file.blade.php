@@ -101,7 +101,7 @@ table thead tr {
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="#">Dashboard</a>
+        <a href="{{url('/admin/index')}}">Dashboard</a>
       </li>
       <li class="breadcrumb-item"><a href="{{url('/admin/absent/list')}}">Chuyên Cần</a></li>
       <li class="breadcrumb-item active">Thêm từ file</li>
