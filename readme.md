@@ -6,7 +6,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
-## Update chức năng 15/06/2019
-- Quên mật khẩu
+## Update chức năng 15/06/2019<br>
+- Quên mật khẩu<br>
 - Gửi mail phản hồi cho cố vấn học tập chưa phản hồi
 
