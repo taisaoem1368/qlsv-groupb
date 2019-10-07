@@ -24,14 +24,14 @@ $ git clone https://github.com/taisaoem1368/qlsv-groupb.git
 ### 3. Create new APP_KEY
 - open file in path: `./config/app.php` in line 106 change to `'key' => env('APP_KEY', 'SomeRandomString'),`
 - run cmd:
-`
+```
 php artisan key:generate
-`
+```
 ### 4. Run Composer
 - Open command and run:
-`
+```
 composer update
-`
+```
 After completing the 4 steps above, you can access your website
 
 ## Put source on Shared Hosting
