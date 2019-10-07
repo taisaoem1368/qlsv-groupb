@@ -55,4 +55,4 @@ After completing the 4 steps above, you can access your website
 - Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte `$this->app->bind('path.public', function(){ return base_auth('public_html'); });`
 
 After completing all the above steps you can enjoy.
-`Deploy Tutorial by QuyenZepZai`
+`Deploy Tutorial by QuyenZepZai demo project at ` [Fandi.vn](http://fandi.vn)
