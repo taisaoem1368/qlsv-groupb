@@ -27,7 +27,7 @@ $ git clone https://github.com/taisaoem1368/qlsv-groupb.git
 `
 php artisan key:generate
 `
-# 4. Run Composer
+### 4. Run Composer
 - Open command and run:
 `
 composer update
