@@ -10,3 +10,49 @@
 - Quên mật khẩu<br>
 - Gửi mail phản hồi cho cố vấn học tập chưa phản hồi
 
+# Deploy Tutorial 07/10/2019
+
+## Setting in Localhost/ Using virtual servers such as wampserver, ampp, ... 
+
+### 1. Use gitbase to get source code:
+```
+$ git clone https://github.com/taisaoem1368/qlsv-groupb.git
+```
+### 2. Config database
+- create file name .evn and copy data from file .env.example to file .env then configure database for laravel easily
+
+### 3. Create new APP_KEY
+- open file in path: ./config/app.php in line 106 change to `'key' => env('APP_KEY', 'SomeRandomString'),`
+- run cmd:
+`
+php artisan key:generate
+`
+# 4. Run Composer
+- Open command and run:
+`
+composer update
+`
+After completing the 4 steps above, you can access your website
+
+## Put source on Shared Hosting
+### 1. Upload source to hosting.
+- Compress your file to `qlsv.zip` and use cPanel extract file `qlsv.zip`
+
+### 2. File structure and database configuration
+- Move all files to the same level as the public_html directory
+- `Remove file public_html` and Change folder name `public` to `public_html`
+- Config database file `.env` and file in path: `./config/database.php` (line 42 if your use mysql or other)
+- wirte more line `'options' => [PDO::ATTR_EMULATE_PREPARES => true],` in array `'mysql'` (line 42 if your use mysql or other)
+
+### 3. Setup APP_KEY
+- Copy APP_KEY in file `.env`
+- Open file in path: `./config/app.php` in line 106 change to `'key' => env('APP_KEY', base64_decode('YOUR_APP_KEY')),`. example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWjtqpdjupZoC7A=')),`
+
+### 4. Config mail
+- file `.env` in line 26
+
+### 5. Change path.public Laravel to public_html
+- Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte `$this->app->bind('path.public', function(){ return base_auth('public_html'); });`
+
+After completing all the above steps you can enjoy.
+`Deploy Tutorial by QuyenZepZai`
