@@ -27,10 +27,14 @@ $ git clone https://github.com/taisaoem1368/qlsv-groupb.git
 ```
 php artisan key:generate
 ```
-### 4. Run Composer
+### 4. Config mail
+- file `.env` in line 26 and file `./config/mail.php`
+
+### 5. Run Composer
 - Open command and run:
 ```
 composer update
+php artisan config:cache
 ```
 After completing the 4 steps above, you can access your website
 
@@ -52,10 +56,7 @@ After completing the 4 steps above, you can access your website
 ```
 example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWjtqpdjupZoC7A=')),`
 
-### 4. Config mail
-- file `.env` in line 26 and file `./config/mail.php`
-
-### 5. Change path.public Laravel to public_html
+### 4. Change path.public Laravel to public_html
 - Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte 
 ```diff
 $this->app->bind('path.public', function(){ return base_path().'/public_html'; });
