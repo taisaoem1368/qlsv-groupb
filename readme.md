@@ -36,7 +36,7 @@ php artisan key:generate
 composer update
 php artisan config:cache
 ```
-After completing the 4 steps above, you can access your website
+After completing the 5 steps above, you can access your website
 
 ## Put source on Shared Hosting
 ### 1. Upload source to hosting.
