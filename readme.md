@@ -63,4 +63,4 @@ $this->app->bind('path.public', function(){ return base_path().'/public_html'; }
 
 
 After completing all the above steps you can enjoy.
-`Deploy Tutorial by QuyenZepZai demo project at ` [Fandi.ml](http://fandi.ml)
+`Deploy Tutorial by QuyenZepZai demo project at ` [Fandi.ml](http://fandi.ml) with username and password as `superadmin`
