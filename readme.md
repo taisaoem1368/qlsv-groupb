@@ -53,7 +53,7 @@ After completing the 4 steps above, you can access your website
 example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWjtqpdjupZoC7A=')),`
 
 ### 4. Config mail
-- file `.env` in line 26
+- file `.env` in line 26 and file `./config/mail.php`
 
 ### 5. Change path.public Laravel to public_html
 - Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte 
