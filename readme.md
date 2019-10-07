@@ -58,7 +58,7 @@ example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWj
 ### 5. Change path.public Laravel to public_html
 - Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte 
 ```diff
-- $this->app->bind('path.public', function(){ return base_path().'/public_html'; });
+$this->app->bind('path.public', function(){ return base_path().'/public_html'; });
 ```
 
 
