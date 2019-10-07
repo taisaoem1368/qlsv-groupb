@@ -48,7 +48,8 @@ After completing the 4 steps above, you can access your website
 - Copy APP_KEY in file `.env`
 - Open file in path: `./config/app.php` in line 106 change to 
 ```diff
-- 'key' => env('APP_KEY', base64_decode('YOUR_APP_KEY')),```
+- 'key' => env('APP_KEY', base64_decode('YOUR_APP_KEY')),
+```
 example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWjtqpdjupZoC7A=')),`
 
 ### 4. Config mail
