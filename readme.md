@@ -19,7 +19,7 @@
 $ git clone https://github.com/taisaoem1368/qlsv-groupb.git
 ```
 ### 2. Config database
-- create file name `.evn` and copy data from file `.env.example` to file `.env` then configure database for laravel easily
+- create file name `.evn` then copy data from file `.env.example` to file `.env` then configure database for laravel easily
 
 ### 3. Create new APP_KEY
 - open file in path: `./config/app.php` in line 106 change to `'key' => env('APP_KEY', 'SomeRandomString'),`
