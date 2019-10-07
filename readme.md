@@ -46,13 +46,20 @@ After completing the 4 steps above, you can access your website
 
 ### 3. Setup APP_KEY
 - Copy APP_KEY in file `.env`
-- Open file in path: `./config/app.php` in line 106 change to `'key' => env('APP_KEY', base64_decode('YOUR_APP_KEY')),`. example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWjtqpdjupZoC7A=')),`
+- Open file in path: `./config/app.php` in line 106 change to 
+```diff
+- 'key' => env('APP_KEY', base64_decode('YOUR_APP_KEY')),```
+example: `'key' => env('APP_KEY', base64_decode('lT2Wh7XRE3NcuzlqhsX6GOKhxWtdyWjtqpdjupZoC7A=')),`
 
 ### 4. Config mail
 - file `.env` in line 26
 
 ### 5. Change path.public Laravel to public_html
-- Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte `$this->app->bind('path.public', function(){ return base_auth('public_html'); });`
+- Open file in path: `./app/Providers/AppServiceProvider.php` line 26 and wirte 
+```diff
+- $this->app->bind('path.public', function(){ return base_path().'/public_html'; });
+```
+
 
 After completing all the above steps you can enjoy.
 `Deploy Tutorial by QuyenZepZai demo project at ` [Fandi.ml](http://fandi.ml)
