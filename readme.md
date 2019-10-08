@@ -10,7 +10,10 @@
 - Quên mật khẩu<br>
 - Gửi mail phản hồi cho cố vấn học tập chưa phản hồi
 
-# Deploy Tutorial 07/10/2019 (Does not work in PHP version 7.2)
+# Deploy Tutorial 07/10/2019
+```
+(Does not work in PHP 7.2 please select a version other than it)
+```
 
 ## Setting in Localhost/ Using virtual servers such as wampserver, ampp, ... 
 
